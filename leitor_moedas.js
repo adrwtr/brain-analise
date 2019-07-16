@@ -2,6 +2,7 @@
 
 // executar api
 const R = require('ramda');
+var rp = require('request-promise');
 
 var obj = [
 {
@@ -60,8 +61,6 @@ var fnLeitorConversao = obj => {
         };    
 }
 
-var arrValores = R.map(fnLeitorConversao, obj);
-
 function fnVerificaSeFoiAlta(arrAtual, nr_posicao) {	
 	var vl_subtracao = 0;
 	var vl_preco_atual = 0;
@@ -85,10 +84,42 @@ function fnVerificaSeFoiAlta(arrAtual, nr_posicao) {
 	return arrAtual;
 }
 
+/*
+var arrValores = R.map(fnLeitorConversao, obj);
 arrValores = fnVerificaSeFoiAlta(arrValores, 0);
 
 arrValores.forEach(
 	element => {
 		console.log(element.sn_alta)
+	}
+);
+*/
+
+
+var options = {
+    uri: 'https://economia.awesomeapi.com.br/json/list/USD-BRL/100',
+    qs: {
+        // access_token: 'xxxxx xxxxx' // -> uri + '?access_token=xxxxx%20xxxxx'
+    },
+    headers: {
+        'User-Agent': 'Request-Promise'
+    },
+    json: true // Automatically parses the JSON string in the response
+};
+
+rp(options).then(
+	function (objJson) {
+        var arrValores = R.map(fnLeitorConversao, objJson);
+		arrValores = fnVerificaSeFoiAlta(arrValores, 0);
+
+		arrValores.forEach(
+			element => {
+				console.log(element.sn_alta)
+			}
+		);
+	}
+).catch(
+	function (err) {
+        // Crawling failed...
 	}
 );
