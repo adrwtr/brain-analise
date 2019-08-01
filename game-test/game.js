@@ -42,7 +42,7 @@ function desenharPosicaoRaquete()
     objCanvas.font = "16px Arial";
     objCanvas.fillText(
         nr_posicao_atual + " - pontos: " + nr_pontos + " - bolas: " 
-            + nr_bolas + " - " + nr_posicao_bola_x, 
+            + nr_bolas,
         10, 
         20
     );
