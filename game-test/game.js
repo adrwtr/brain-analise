@@ -21,6 +21,9 @@ var nr_posicao_bola_x = 1;
 var nr_posicao_bola_y = 1;
 var nr_bolas = 0;
 
+// inteligencia artificial
+var objBrain = new brain.NeuralNetwork();
+
 function limparTela()
 {
     objCanvas.clearRect(0, 0, nr_canvas_w, nr_canvas_h);
