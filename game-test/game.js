@@ -110,11 +110,22 @@ function testarPosicaoBola()
         nr_posicao_bola_y++;
     }
 
+    // ganha o ponto?
+    if (
+        nr_posicao_bola_y == 7
+        && nr_posicao_atual == nr_posicao_bola_x
+    ) {
+        nr_pontos++;
+
+        nr_posicao_bola_x = Math.floor((Math.random() * 5) + 1);
+        nr_posicao_bola_y = 1;
+        nr_bolas++;
+    }
+
     if (nr_posicao_bola_y >= 7) {
         // reinicia
         nr_posicao_bola_x = Math.floor((Math.random() * 5) + 1);
         nr_posicao_bola_y = 1;
-        nr_pontos++;
         nr_bolas++;
     }
 }
