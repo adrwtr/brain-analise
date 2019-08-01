@@ -17,6 +17,9 @@ var nr_bola_y = 0;
 var nr_total_posicoes = 5;
 var nr_posicao_atual = 1;
 var nr_pontos = 0;
+var nr_posicao_bola_x = 1;
+var nr_posicao_bola_y = 1;
+var nr_bolas = 0;
 
 function limparTela()
 {
@@ -35,16 +38,32 @@ function desenharPosicaoRaquete()
 {
     objCanvas.beginPath(); 
 
+    objCanvas.fillStyle = "#FF00FF";
     objCanvas.font = "16px Arial";
     objCanvas.fillText(
-        nr_posicao_atual + " - pontos: " + nr_pontos, 
+        nr_posicao_atual + " - pontos: " + nr_pontos + " - bolas: " 
+            + nr_bolas + " - " + nr_posicao_bola_x, 
         10, 
         20
     );
 }
 
 // function
+function desenharBola()
+{
+    objCanvas.beginPath(); 
+    objCanvas.fillStyle = "#FF0000";
 
+    objCanvas.arc(
+        nr_bola_x + (nr_posicao_bola_x * 50) - 25, 
+        nr_bola_y + (nr_posicao_bola_y * 50), 
+        25, 0, 2 * Math.PI
+    );
+
+    objCanvas.fillStyle = "red";
+    objCanvas.fill();
+    objCanvas.stroke();
+}
 
 // controles
 
@@ -85,6 +104,21 @@ function testarPosicao(
     return false;
 }
 
+function testarPosicaoBola() 
+{
+    if (nr_posicao_bola_y < 7) {
+        nr_posicao_bola_y++;
+    }
+
+    if (nr_posicao_bola_y >= 7) {
+        // reinicia
+        nr_posicao_bola_x = Math.floor((Math.random() * 5) + 1);
+        nr_posicao_bola_y = 1;
+        nr_pontos++;
+        nr_bolas++;
+    }
+}
+
 
 // inicia jogo
 
@@ -93,37 +127,9 @@ function startGame()
     limparTela();
     desenharPosicaoRaquete();
     desenharRaquete();
+    desenharBola();
+    testarPosicaoBola();
 }
 
 startGame();
 setInterval(startGame, 1000);
-
-/*
-objCanvas.beginPath();
-x = 95;
-y = 50;
-radio = 10;
-
-objCanvas.arc(x, y, radio, 0, 2 * Math.PI);
-objCanvas.stroke();
-objCanvas.fill();
-
-objCanvas.fillStyle = "#000000";
-objCanvas.fillRect(0, 250, 50, 50);
-objCanvas.stroke();
-objCanvas.fill();
-
-
-function moverRaquete() 
-{
-    var objElementoCanvas = document.getElementById("canvas_teste");
-    var objCanvas = objElementoCanvas.getContext("2d");
-    objCanvas.clearRect(0, 0, nr_canvas_w, nr_canvas_h);
-    objCanvas.beginPath();
-
-    objCanvas.fillStyle = "#000000";
-    objCanvas.fillRect(100, 250, 150, 50);
-    objCanvas.stroke();
-    objCanvas.fill();
-}
-*/
